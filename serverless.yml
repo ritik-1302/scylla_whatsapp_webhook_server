@@ -1,7 +1,7 @@
 plugins:
   - serverless-offline
 
-service: scylla-whatsapp-webhook-server
+service: scylla-webhook-whatsapp--server
 provider:
   name: aws
   runtime: nodejs18.x
