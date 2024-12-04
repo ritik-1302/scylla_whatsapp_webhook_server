@@ -1,8 +1,13 @@
 plugins:
+  - serverless-dotenv-plugin
   - serverless-offline
+
 
 service: scylla-webhook-whatsapp--server
 provider:
+  environment:
+     GRAPH_API_TOKEN: ${.env:GRAPH_API_TOKEN}
+     WEBHOOK_VERIFY_TOKEN: ${.env:WEBHOOK_VERIFY_TOKEN}
   name: aws
   runtime: nodejs18.x
   stage: dev
