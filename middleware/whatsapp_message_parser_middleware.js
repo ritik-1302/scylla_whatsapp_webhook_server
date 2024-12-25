@@ -4,7 +4,7 @@ import path from "path";
 import axios from "axios";
 import process from "process";
 import { baseURL } from "../constants.js";
-import { sendMessage } from "../utils/send_message.js";
+import { sendMessage } from "../utils/functions/send_message.js";
 const __dirname = path.resolve();
 
 const handleCase = async (caseName, reciever) => {

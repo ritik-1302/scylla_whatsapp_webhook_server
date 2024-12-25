@@ -20,7 +20,6 @@ export const webhookRegisteration=expressAsyncHandler(async(req,res)=>{
   }
 )
 
-
 export const incomingWebhookMessage=expressAsyncHandler(async(req, res)=>{
     console.log("Incoming webhook message:", JSON.stringify(req.body, null, 2));
     res.sendStatus(200);
