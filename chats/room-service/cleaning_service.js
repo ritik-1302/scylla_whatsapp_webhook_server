@@ -1,12 +1,13 @@
-import { device } from "../models/device_model.js";
-import { ticket } from "../models/ticket_model.js";
+import { device } from "../../models/device_model.js";
+import { ticket } from "../../models/ticket_model.js";
 
-import { broadcastToAllClients } from "../utils/functions/broadcast_to_all_client.js";
+import { broadcastToAllClients } from "../../utils/functions/broadcast_to_all_client.js";
 
 const broadcastHousekeepingMessageAndSaveToDatabase = async (
   deviceIdentifier
 ) => {
   try {
+    console.log("DeviceIdentifier", deviceIdentifier);
     const whatsappDevice = await device.findOne({
       identifier: deviceIdentifier,
     });
@@ -14,6 +15,9 @@ const broadcastHousekeepingMessageAndSaveToDatabase = async (
     if (!whatsappDevice) {
       console.log("Device Not found");
       return false;
+    } else {
+      console.log("Device found");
+      console.log("Device", whatsappDevice);
     }
 
     const deviceId = whatsappDevice._id;
@@ -21,7 +25,7 @@ const broadcastHousekeepingMessageAndSaveToDatabase = async (
 
     const newTicket = await ticket.create({
       type: "Housekeeping",
-      deviceId: deviceId,
+      device: deviceId,
       status: "Open",
     });
 
@@ -34,7 +38,7 @@ const broadcastHousekeepingMessageAndSaveToDatabase = async (
     });
     return true;
   } catch (err) {
-    console.log(err);
+    console.log("Error is", err);
     return false;
   }
 };

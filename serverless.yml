@@ -9,6 +9,8 @@ provider:
      WEBHOOK_VERIFY_TOKEN: ${.env:WEBHOOK_VERIFY_TOKEN}
      DB_NAME: ${.env:DB_NAME}
      CONNECTION_STRING: ${.env:CONNECTION_STRING} 
+     PASSPHRASE: ${.env:PASSPHRASE}
+     BASE64_PRIVATE_KEY: ${.env:BASE64_PRIVATE_KEY}
   name: aws
   runtime: nodejs18.x
   stage: dev

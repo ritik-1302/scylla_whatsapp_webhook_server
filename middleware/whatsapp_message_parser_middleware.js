@@ -8,7 +8,8 @@ import { sendMessage } from "../utils/functions/send_message.js";
 const __dirname = path.resolve();
 
 const handleCase = async (caseName, reciever) => {
-  const caseFile = path.join(__dirname, "chats", `${caseName}.js`);
+  const caseFile = path.join(__dirname, "chats/room-service", `${caseName}.js`);
+  console.log(caseFile);
 
   if (fs.existsSync(caseFile)) {
     const { handler } = await import(caseFile);
@@ -58,7 +59,7 @@ export const whatsappMessageParserMiddleware = async (req, res, next) => {
           type: "list",
           header: {
             type: "text",
-            text: "🛎 Scylla Service Bot",
+            text: "🛎 Room Service Bot",
           },
           body: {
             text: "Please select from the options below for your  service needs.",

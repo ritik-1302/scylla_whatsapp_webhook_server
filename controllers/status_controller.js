@@ -9,7 +9,7 @@ export const testWhatsapp = asyncHandler(async (req, res) => {
   try {
     const response = await axios({
       method: "POST",
-      url: `${baseURL}/512840651905826/messages`,
+      url: `${baseURL}/573828302472402/messages`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${GRAPH_API_TOKEN}`,
