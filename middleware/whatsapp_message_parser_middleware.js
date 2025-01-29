@@ -1,10 +1,7 @@
 import fs from "fs";
 import path from "path";
-
-import axios from "axios";
-import process from "process";
-import { baseURL } from "../constants.js";
 import { sendMessage } from "../utils/functions/send_message.js";
+import { handler } from "../chats/room-service/room_service.js";
 const __dirname = path.resolve();
 
 const handleCase = async (caseName, reciever) => {
@@ -37,111 +34,38 @@ export const whatsappMessageParserMiddleware = async (req, res, next) => {
     req.body.entry?.[0]?.changes[0]?.value?.messages?.[0].interactive
       ?.list_reply?.id;
 
+  const reciever = req.body.entry?.[0]?.changes[0]?.value?.messages?.[0].from;
+
   if (listReplyId) {
-    const data = await handleCase(listReplyId, "919805278485");
+    const data = await handleCase(listReplyId, reciever);
     await sendMessage(business_phone_number_id, data);
   }
 
   //For the start of the loop
   else if (message?.type === "text" && message.text.body === "START") {
-    await axios({
-      method: "POST",
-      url: `${baseURL}/${business_phone_number_id}/messages`,
-      headers: {
-        Authorization: `Bearer ${process.env.GRAPH_API_TOKEN}`,
-      },
-      data: {
-        messaging_product: "whatsapp",
-        recipient_type: "individual",
-        to: "919805278485",
-        type: "interactive",
-        interactive: {
-          type: "list",
-          header: {
-            type: "text",
-            text: "🛎 Room Service Bot",
-          },
-          body: {
-            text: "Please select from the options below for your  service needs.",
-          },
-          footer: {
-            text: "Powered By Reslink Technologies Pvt Ltd.",
-          },
-          action: {
-            button: "View Options",
-            sections: [
-              {
-                title: "Food & Beverages",
-                rows: [
-                  {
-                    id: "food_order",
-                    title: "Order Food",
-                    description:
-                      "Choose from our menu and order delicious meals.",
-                  },
-                  {
-                    id: "beverages_order",
-                    title: "Order Beverages",
-                    description: "Select from a variety of refreshing drinks.",
-                  },
-                ],
-              },
+    const data = handler(reciever);
+    await sendMessage(business_phone_number_id, data);
 
-              {
-                title: "Housekeeping",
-                rows: [
-                  {
-                    id: "cleaning_service",
-                    title: "Request Cleaning",
-                    description: "Schedule a room cleaning.",
-                  },
-                  {
-                    id: "towel_request",
-                    title: "Request Towels",
-                    description: "Request additional towels.",
-                  },
-                ],
-              },
-              {
-                title: "Transportation",
-                rows: [
-                  {
-                    id: "cab_service",
-                    title: "Request a Ride",
-                    description: "Schedule a Cab at your destination",
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      },
-    })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    // Mark messages as read
 
-    await axios({
-      method: "POST",
-      url: `${baseURL}/${business_phone_number_id}/messages`,
-      headers: {
-        Authorization: `Bearer ${process.env.GRAPH_API_TOKEN}`,
-      },
-      data: {
-        messaging_product: "whatsapp",
-        status: "read",
-        message_id: message.id,
-      },
-    })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    // await axios({
+    //   method: "POST",
+    //   url: `${baseURL}/${business_phone_number_id}/messages`,
+    //   headers: {
+    //     Authorization: `Bearer ${process.env.GRAPH_API_TOKEN}`,
+    //   },
+    //   data: {
+    //     messaging_product: "whatsapp",
+    //     status: "read",
+    //     message_id: message.id,
+    //   },
+    // })
+    //   .then(function (response) {
+    //     console.log(response);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
   }
 
   next();
