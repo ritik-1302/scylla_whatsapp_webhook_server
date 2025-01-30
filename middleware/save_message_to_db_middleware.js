@@ -1,5 +1,4 @@
-import { saveMessageToDB } from "../utils/functions/save_message_to_db.js"
-
+import { saveMessageToDB } from "../utils/functions/save_message_to_db.js";
 
 export const saveMessageToDBMiddleWare = async (req, res, next) => {
   const messageObject = req.body;

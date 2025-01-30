@@ -38,13 +38,13 @@ export const whatsappMessageParserMiddleware = async (req, res, next) => {
 
   if (listReplyId) {
     const data = await handleCase(listReplyId, reciever);
-    await sendMessage(data,business_phone_number_id, );
+    await sendMessage(data,business_phone_number_id );
   }
 
   //For the start of the loop
   else if (message?.type === "text" && message.text.body === "START") {
     const data = handler(reciever);
-    await sendMessage(data,business_phone_number_id, );
+    await sendMessage(data,business_phone_number_id );
 
     // Mark messages as read
 

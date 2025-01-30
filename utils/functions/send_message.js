@@ -19,7 +19,7 @@ export const sendMessage = async (
       .then(async function (response) {
         console.log(response);
         data["messages"] = response.data["messages"];
-        await saveMessageToDB(data, businessPhoneNumberId);
+        await saveMessageToDB(data, data["to"]);
       })
       .catch(function (error) {
         console.log(error);

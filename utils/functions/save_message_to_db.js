@@ -1,8 +1,8 @@
-import { apiEndpoint } from "../../constants.js";
+import { socketApiEndpoint } from "../../constants.js";
 
 export const saveMessageToDB = async (messageObject, deviceIdentifier) => {
     try {
-      const response = await fetch(`${apiEndpoint}/chat`, {
+      const response = await fetch(`${socketApiEndpoint}/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

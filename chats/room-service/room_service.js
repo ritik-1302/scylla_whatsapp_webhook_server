@@ -60,6 +60,16 @@ export const handler = (reciever) => {
               },
             ],
           },
+          {
+            title: "Contact Support",
+            rows: [
+              {
+                id: "contact_support",
+                title: "Contact Support",
+                description: "Get in touch with our support team.",
+              },
+            ],
+          },
         ],
       },
     },
